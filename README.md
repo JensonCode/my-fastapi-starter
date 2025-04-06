@@ -12,6 +12,7 @@ A RESTful API starter built with FastAPI, SQLAlchemy ORM, and Alembic for databa
 - Automatic OpenAPI/Swagger documentation
 - Environment-based configuration
 - Authentication and security features
+- Automatic database migrations on startup
 
 ## Project Structure
 
@@ -19,6 +20,9 @@ A RESTful API starter built with FastAPI, SQLAlchemy ORM, and Alembic for databa
 .
 ├── alembic/          # Database migration files
 ├── src/             # Source code
+│   ├── models/      # Database models
+│   │   └── __init__.py  # Imports all models for migrations
+│   └── schemas/     # Pydantic schemas
 ├── .env             # Environment variables (not in version control)
 ├── .env.example     # Example environment variables
 ├── alembic.ini      # Alembic configuration
@@ -64,13 +68,14 @@ cp .env.example .env
 ## Database Setup
 
 1. Initialize Alembic migrations:
+   There is a example `user` model, take out before inti and applying migrations if you don't want it
+   Don't forget to delete the array in `src/models/__init__.py`
 
 ```bash
 alembic revision --autogenerate -m "init alembic migration"
 ```
 
 2. Apply migrations:
-   there is a example `user` model, take out before applying migrations if you don't want it
 
 ```bash
 alembic upgrade head
@@ -95,6 +100,7 @@ The API will be available at `http://localhost:8000`
 
 - Models are defined using SQLAlchemy ORM's Base
 - Located in `src/models/`
+- `__init__.py` should imported every models in order to do migrations
 
 ### API Schemas
 
